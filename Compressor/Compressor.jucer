@@ -14,6 +14,8 @@
       <FILE id="u6H3V9" name="CircleBuffer.cpp" compile="1" resource="0"
             file="Source/CircleBuffer.cpp"/>
       <FILE id="ysHIbg" name="CircleBuffer.h" compile="0" resource="0" file="Source/CircleBuffer.h"/>
+      <FILE id="bsHHQY" name="Compressor.cpp" compile="1" resource="0" file="Source/Compressor.cpp"/>
+      <FILE id="xFkTlh" name="Compressor.h" compile="0" resource="0" file="Source/Compressor.h"/>
     </GROUP>
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>
