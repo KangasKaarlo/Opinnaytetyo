@@ -2,7 +2,17 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio Version 17
 
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Compressor - App", "Compressor_App.vcxproj", "{C3C94A63-BDEB-8B66-6A6D-8FF68B414871}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Compressor - Standalone Plugin", "Compressor_StandalonePlugin.vcxproj", "{09ED8A54-9DF6-405C-1A06-1712D28EE235}"
+	ProjectSection(ProjectDependencies) = postProject
+		{586E65DA-6703-6265-F234-574277EEF5D7} = {586E65DA-6703-6265-F234-574277EEF5D7}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Compressor - VST3", "Compressor_VST3.vcxproj", "{A1B7B00C-D9DF-3925-1478-2D74F6EABCF1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{586E65DA-6703-6265-F234-574277EEF5D7} = {586E65DA-6703-6265-F234-574277EEF5D7}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Compressor - Shared Code", "Compressor_SharedCode.vcxproj", "{586E65DA-6703-6265-F234-574277EEF5D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -10,10 +20,18 @@ Global
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C3C94A63-BDEB-8B66-6A6D-8FF68B414871}.Debug|x64.ActiveCfg = Debug|x64
-		{C3C94A63-BDEB-8B66-6A6D-8FF68B414871}.Debug|x64.Build.0 = Debug|x64
-		{C3C94A63-BDEB-8B66-6A6D-8FF68B414871}.Release|x64.ActiveCfg = Release|x64
-		{C3C94A63-BDEB-8B66-6A6D-8FF68B414871}.Release|x64.Build.0 = Release|x64
+		{A1B7B00C-D9DF-3925-1478-2D74F6EABCF1}.Debug|x64.ActiveCfg = Debug|x64
+		{A1B7B00C-D9DF-3925-1478-2D74F6EABCF1}.Debug|x64.Build.0 = Debug|x64
+		{A1B7B00C-D9DF-3925-1478-2D74F6EABCF1}.Release|x64.ActiveCfg = Release|x64
+		{A1B7B00C-D9DF-3925-1478-2D74F6EABCF1}.Release|x64.Build.0 = Release|x64
+		{09ED8A54-9DF6-405C-1A06-1712D28EE235}.Debug|x64.ActiveCfg = Debug|x64
+		{09ED8A54-9DF6-405C-1A06-1712D28EE235}.Debug|x64.Build.0 = Debug|x64
+		{09ED8A54-9DF6-405C-1A06-1712D28EE235}.Release|x64.ActiveCfg = Release|x64
+		{09ED8A54-9DF6-405C-1A06-1712D28EE235}.Release|x64.Build.0 = Release|x64
+		{586E65DA-6703-6265-F234-574277EEF5D7}.Debug|x64.ActiveCfg = Debug|x64
+		{586E65DA-6703-6265-F234-574277EEF5D7}.Debug|x64.Build.0 = Debug|x64
+		{586E65DA-6703-6265-F234-574277EEF5D7}.Release|x64.ActiveCfg = Release|x64
+		{586E65DA-6703-6265-F234-574277EEF5D7}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
