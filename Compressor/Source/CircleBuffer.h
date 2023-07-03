@@ -9,7 +9,7 @@
 */
 
 #pragma once
-#include <juce_audio_basics/buffers/juce_AudioSampleBuffer.h>
+#include "../JuceLibraryCode/JuceHeader.h"
 class CircleBuffer {
 public:
     CircleBuffer();

@@ -30,7 +30,7 @@ CircleBuffer::CircleBuffer(int bufferLength, int delay)
 void CircleBuffer::nextSample()
 {
     int bufferLength = buffer.getNumSamples();
-    readIndex = ((bufferLength + writeIndex) - delay % bufferLength);
+    readIndex = ((bufferLength + writeIndex) - delay) % bufferLength;
     writeIndex = (writeIndex + 1) % bufferLength;
 }
 

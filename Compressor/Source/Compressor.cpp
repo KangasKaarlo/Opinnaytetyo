@@ -8,14 +8,16 @@
   ==============================================================================
 */
 
+#pragma once
+
 #include "Compressor.h"
 #include <cmath>;
 #include <algorithm>
-#pragma once
+
 
 Compressor::Compressor()
 {
-    buffer = CircleBuffer(150, 20);
+    buffer = CircleBuffer(400000, 0);
     tav = 0.01f;
     rms = 0;
     gain = 1;
@@ -31,5 +33,18 @@ float Compressor::compress(float data, float threshold, float ratio, float attac
     float slope = 1 - (1 / ratio);
     float dbGain = std::min(0.0f, (slope * (threshold - dbRMS)));
     float newGain = std::pow(10, dbGain / 20);
-    return 0.0f;
+
+    //Smoothen the transition with attack and release
+    float coeff;
+    if (newGain < gain) coeff = attack;
+    else coeff = release;
+    gain = (1 - coeff) * gain + coeff * newGain;
+
+    //Update buffer
+    float compressedSample = gain * buffer.getData();
+    buffer.setData(data);
+    buffer.nextSample();
+
+    return compressedSample;
+
 }
