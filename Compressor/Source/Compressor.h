@@ -9,17 +9,7 @@
 */
 #pragma once
 #include "EnvelopeDetector.h"
-/*class Compressor {
-public:
-	Compressor();
-	float compress(float data,float dbRMS ,float treshold, float ratio, float attack, float release, float knee);
-	float calculteDbRMS(float data);
-private:
-	CircleBuffer buffer;
-	float tav;
-	float rms;
-	float gain;
-};*/
+
 class Compressor {
 public:
 	float processAudioSample(float sample);
@@ -35,7 +25,7 @@ private:
 	float attackTime_ms;
 	float releaseTime_ms;
 	float ratio = 4.0f;
-	float kneeWidth_dB;
+	float kneeWidth_dB = 0.5f;
 	bool hardLimitGate = false;
 	bool softKnee = true;
 	bool sidechain = false;
