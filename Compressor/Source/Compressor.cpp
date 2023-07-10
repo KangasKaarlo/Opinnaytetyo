@@ -77,38 +77,17 @@ void Compressor::setAttack(float attack)
 {
     attackTime_ms = attack;
     envelopeDetector.setAttackTime(attack);
-    DBG("in comp");
-    DBG("attack");
-    DBG(attackTime_ms);
-    DBG("release");
-    DBG(releaseTime_ms);
-    DBG("treshold");
-    DBG(threshold_dB);
 }
 
 void Compressor::setRelease(float release)
 {
     releaseTime_ms = release;
     envelopeDetector.setReleaseTime(release);
-    DBG("in comp");
-    DBG("attack");
-    DBG(attackTime_ms);
-    DBG("release");
-    DBG(releaseTime_ms);
-    DBG("treshold");
-    DBG(threshold_dB);
 }
 
 void Compressor::setTreshold(float treshold)
 {
     threshold_dB = treshold;
-    DBG("in comp");
-    DBG("attack");
-    DBG(attackTime_ms);
-    DBG("release");
-    DBG(releaseTime_ms);
-    DBG("treshold");
-    DBG(threshold_dB);
 }
 
 

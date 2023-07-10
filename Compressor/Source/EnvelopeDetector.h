@@ -24,7 +24,7 @@ private:
     float releaseTime_ms;
     float lastEnv;
     float sampleRate;
-    bool detect_dB = false;
+    bool RMS = false;
     //Analogue time constant for a RC filter
     //log(36.7)
     const float TLD_AUDIO_ENVELOPE_ANALOG_TC = -0.99967234081320612357829304641019f;

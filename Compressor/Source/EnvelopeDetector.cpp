@@ -18,7 +18,9 @@ float EnvelopeDetector::processAudioSample(float data)
     float input = fabs(data);
 
     //Square it for RMS
-    input *= input;
+    if (RMS) {
+        input *= input;
+    }
 
     //See if we're attacking or releasing
     float currentEnv = input;
@@ -33,7 +35,9 @@ float EnvelopeDetector::processAudioSample(float data)
     lastEnv = currentEnv;
 
     //SQRT for RMS
-    currentEnv = pow(currentEnv, 0.5);
+    if (RMS) {
+        currentEnv = pow(currentEnv, 0.5);
+    }
 
     if (currentEnv <= 0) {
         return -96.0f;
@@ -59,11 +63,6 @@ void EnvelopeDetector::setAttackTime(float attackTime)
         attackTime_ms = attackTime;
         this->attackTime = exp(TLD_AUDIO_ENVELOPE_ANALOG_TC / (attackTime_ms * sampleRate * 0.001));
     }
-    DBG("in Env");
-    DBG("attack");
-    DBG(attackTime_ms);
-    DBG("release");
-    DBG(releaseTime_ms);
 }
 
 void EnvelopeDetector::setReleaseTime(float releaseTime)
@@ -72,9 +71,4 @@ void EnvelopeDetector::setReleaseTime(float releaseTime)
         releaseTime_ms = releaseTime;
         this->releaseTime = exp(TLD_AUDIO_ENVELOPE_ANALOG_TC / (releaseTime_ms * sampleRate * 0.001));
     }
-    DBG("in Env");
-    DBG("attack");
-    DBG(attackTime_ms);
-    DBG("release");
-    DBG(releaseTime_ms);
 }
