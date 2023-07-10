@@ -16,6 +16,14 @@
 #include <algorithm>
 
 
+float Compressor::returnGainMultiplier(float sample)
+{
+	float detectorOutput = envelopeDetector.processAudioSample(sample);
+	double gainReduction = computeGain(detectorOutput);
+	double makeupGain = pow(10.0, outputGain_db / 20.0);
+	return gainReduction /* makeupGain*/;
+}
+
 float Compressor::processAudioSample(float sample)
 {
 	float detectorOutput = envelopeDetector.processAudioSample(sample);
@@ -34,7 +42,7 @@ float Compressor::computeGain(float input) {
 		//inside knee
 		else if (2.0 * (fabs(input - threshold_dB)) <= kneeWidth_dB)
 		{
-			output = input + (((1.0 / ratio) - 1.0) * pow((input - threshold_dB + (kneeWidth_dB / 2.0)), 2.0)) / (2.0 * parameters.kneeWidth_dB);
+			output = input + (((1.0 / ratio) - 1.0) * pow((input - threshold_dB + (kneeWidth_dB / 2.0)), 2.0)) / (2.0 * kneeWidth_dB);
 		}
 		//right, outside knee
 		else if (2.0 * (input - threshold_dB) > kneeWidth_dB) {

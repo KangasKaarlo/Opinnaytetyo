@@ -201,15 +201,20 @@ void CompressorAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
     juce::ScopedNoDenormals noDenormals;
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
-
-    for (int i = 0; i < buffer.getNumSamples(); i++) {
-        for (int channel = 0; channel < totalNumInputChannels; ++channel)
-        {
-            auto* data = buffer.getWritePointer(channel);
-            //Compressor* comp = &allCompressors.getReference(channel);
-            //data[i] = comp->processAudioSample(data[i]);
-            if (channel == 0) {
-                data[i] = LComp.processAudioSample(data[i]);
+    
+    if (totalNumInputChannels >= 2) {
+        for (int i = 0; i < buffer.getNumSamples(); i++) {
+            float sampleForComp = 0.0f;
+            for (int channel = 0; channel < 2; ++channel)
+            {
+                auto* data = buffer.getWritePointer(channel);
+                sampleForComp += data[i];
+            }
+            gain = LComp.returnGainMultiplier(sampleForComp/2);
+            for (int channel = 0; channel < 2; ++channel)
+            {
+                auto* data = buffer.getWritePointer(channel);
+                data[i] = data[i] * gain;
             }
         }
     }

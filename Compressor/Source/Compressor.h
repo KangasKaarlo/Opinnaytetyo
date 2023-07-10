@@ -12,6 +12,7 @@
 
 class Compressor {
 public:
+	float returnGainMultiplier(float sample);
 	float processAudioSample(float sample);
 	void setAttack(float attack);
 	void setRelease(float release);
