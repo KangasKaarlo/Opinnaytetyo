@@ -11,24 +11,22 @@
 #pragma once
 
 #include "Compressor.h"
+#include "JuceHeader.h"
 #include <cmath>;
 #include <algorithm>
 
 
+/*
 Compressor::Compressor()
 {
-    buffer = CircleBuffer(400000, 0);
+    buffer = CircleBuffer(100000000, 0);
     tav = 0.01f;
     rms = 0;
     gain = 1;
 }
 
-float Compressor::compress(float data, float threshold, float ratio, float attack, float release, float knee)
+float Compressor::compress(float data,float dbRMS, float threshold, float ratio, float attack, float release, float knee)
 {
-    //Detecting the input gain and store it as a DB value
-    rms = (1 - tav) * rms + tav * std::pow(data, 2.0f);
-    float dbRMS = 10 * std::log10(rms); 
-
     //Calculates the new gain value
     float slope = 1 - (1 / ratio);
     float dbGain = std::min(0.0f, (slope * (threshold - dbRMS)));
@@ -46,5 +44,71 @@ float Compressor::compress(float data, float threshold, float ratio, float attac
     buffer.nextSample();
 
     return compressedSample;
-
 }
+
+float Compressor::calculteDbRMS(float data)
+{
+    rms = (1 - tav) * rms + tav * std::pow(data, 2.0f);   
+    return 10 * std::log10(rms);
+}
+*/
+
+float Compressor::processAudioSample(float sample)
+{
+    float detectorOutput = envelopeDetector.processAudioSample(sample);
+    double gainReduction = computeGain(detectorOutput);
+    double makeupGain = pow(10.0, outputGain_db / 20.0);
+    return sample * gainReduction /* makeupGain*/;
+}
+
+float Compressor::computeGain(float input) {
+    float output = 0.0f;
+    // --- below threshold, unity
+    if (input <= threshold_dB)
+        output = input;
+    else// --- above threshold, compress
+    {
+        output = threshold_dB + (input - threshold_dB) / ratio;
+    }
+    return pow(10.0, (output - input) / 20.0);
+}
+
+void Compressor::setAttack(float attack)
+{
+    attackTime_ms = attack;
+    envelopeDetector.setAttackTime(attack);
+    DBG("in comp");
+    DBG("attack");
+    DBG(attackTime_ms);
+    DBG("release");
+    DBG(releaseTime_ms);
+    DBG("treshold");
+    DBG(threshold_dB);
+}
+
+void Compressor::setRelease(float release)
+{
+    releaseTime_ms = release;
+    envelopeDetector.setReleaseTime(release);
+    DBG("in comp");
+    DBG("attack");
+    DBG(attackTime_ms);
+    DBG("release");
+    DBG(releaseTime_ms);
+    DBG("treshold");
+    DBG(threshold_dB);
+}
+
+void Compressor::setTreshold(float treshold)
+{
+    threshold_dB = treshold;
+    DBG("in comp");
+    DBG("attack");
+    DBG(attackTime_ms);
+    DBG("release");
+    DBG(releaseTime_ms);
+    DBG("treshold");
+    DBG(threshold_dB);
+}
+
+

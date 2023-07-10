@@ -16,6 +16,13 @@
       <FILE id="ysHIbg" name="CircleBuffer.h" compile="0" resource="0" file="Source/CircleBuffer.h"/>
       <FILE id="bsHHQY" name="Compressor.cpp" compile="1" resource="0" file="Source/Compressor.cpp"/>
       <FILE id="xFkTlh" name="Compressor.h" compile="0" resource="0" file="Source/Compressor.h"/>
+      <FILE id="qM5swa" name="EnvelopeDetector.cpp" compile="1" resource="0"
+            file="Source/EnvelopeDetector.cpp"/>
+      <FILE id="EANrG4" name="EnvelopeDetector.h" compile="0" resource="0"
+            file="Source/EnvelopeDetector.h"/>
+      <FILE id="jLQtBm" name="GainComputer.cpp" compile="1" resource="0"
+            file="Source/GainComputer.cpp"/>
+      <FILE id="bsXyBo" name="GainComputer.h" compile="0" resource="0" file="Source/GainComputer.h"/>
     </GROUP>
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>

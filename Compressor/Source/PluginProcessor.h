@@ -13,7 +13,7 @@
 //==============================================================================
 /**
 */
-class CompressorAudioProcessor  : public juce::AudioProcessor
+class CompressorAudioProcessor  : public juce::AudioProcessor, juce::AudioProcessorValueTreeState::Listener
                             #if JucePlugin_Enable_ARA
                              , public juce::AudioProcessorARAExtension
                             #endif
@@ -55,9 +55,18 @@ public:
     //==============================================================================
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
-
+    juce::AudioProcessorValueTreeState treeState;
 private:
-    juce::Array<Compressor>allCompressors;
+    void parameterChanged(const juce::String& parameterID, float newValue) override;
+    //juce::Array<Compressor>allCompressors;
+    Compressor LComp;
+    juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
+    float gain = 0;
+    float attack = 0.1f;
+    float release = 0.1f;
+    float ratio = 4.0f;
+    float treshold = -10.0f;
+
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (CompressorAudioProcessor)
 };

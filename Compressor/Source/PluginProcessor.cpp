@@ -19,13 +19,25 @@ CompressorAudioProcessor::CompressorAudioProcessor()
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ), treeState(*this, nullptr, "parameters", createParameterLayout())
 #endif
 {
+    treeState.addParameterListener("gain", this);
+    treeState.addParameterListener("treshold", this);
+    treeState.addParameterListener("attack", this);
+    treeState.addParameterListener("release", this);
+    treeState.addParameterListener("limit", this);
+    treeState.addParameterListener("sidechain", this); 
 }
 
 CompressorAudioProcessor::~CompressorAudioProcessor()
 {
+    treeState.removeParameterListener("gain", this);
+    treeState.removeParameterListener("treshold", this);
+    treeState.removeParameterListener("attack", this);
+    treeState.removeParameterListener("release", this);
+    treeState.removeParameterListener("limit", this);
+    treeState.removeParameterListener("sidechain", this);
 }
 
 //==============================================================================
@@ -33,6 +45,57 @@ const juce::String CompressorAudioProcessor::getName() const
 {
     return JucePlugin_Name;
 }
+
+juce::AudioProcessorValueTreeState::ParameterLayout CompressorAudioProcessor::createParameterLayout()
+{
+    std::vector <std::unique_ptr<juce::RangedAudioParameter>> params;
+
+    juce::NormalisableRange<float> attackRange(1.0f, 200.0f, 1);
+    attackRange.setSkewForCentre(50.0f);
+
+    juce::NormalisableRange<float> releaseRange(1.0f, 200.0f, 1);
+    releaseRange.setSkewForCentre(80.0f);
+
+    auto pGain = std::make_unique<juce::AudioParameterFloat>("gain", "Gain", -12.0, 12.0, 0.0);
+    auto pTresh = std::make_unique<juce::AudioParameterFloat>("treshold", "Treshold", -60.0f, 10.0f, 0.0f);
+    auto pAttack = std::make_unique<juce::AudioParameterFloat>("attack", "Attack", attackRange, 30);
+    auto pRelease = std::make_unique<juce::AudioParameterFloat>("release", "Release", releaseRange, 100.0);
+    auto pLimiting = std::make_unique<juce::AudioParameterBool>("limit", "Limiter", false);
+    auto pSidechain = std::make_unique<juce::AudioParameterBool>("sidechain", "Sidechain", false);
+    
+    params.push_back(std::move(pGain));
+    params.push_back(std::move(pTresh));
+    params.push_back(std::move(pAttack));
+    params.push_back(std::move(pRelease));
+    params.push_back(std::move(pLimiting));
+    params.push_back(std::move(pSidechain));
+    return{ params.begin(), params.end() };
+}
+
+void CompressorAudioProcessor::parameterChanged(const juce::String& parameterID, float newValue)
+{
+    DBG(parameterID);
+    DBG(newValue);
+    if (parameterID == "gain") { 
+        gain = juce::Decibels::decibelsToGain(newValue);
+    }
+    else if (parameterID == "treshold") {
+        LComp.setTreshold(newValue);
+    }
+    else if (parameterID == "attack") {
+        LComp.setAttack(newValue);
+    }
+    else if (parameterID == "release") {
+        LComp.setRelease(newValue);
+    }
+    else if (parameterID == "limit") {
+
+    }
+    else if (parameterID == "sidechain") {
+
+    }
+}
+
 
 bool CompressorAudioProcessor::acceptsMidi() const
 {
@@ -95,9 +158,10 @@ void CompressorAudioProcessor::prepareToPlay (double sampleRate, int samplesPerB
 {
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
-    for (int channel = 0; channel < getNumOutputChannels(); channel++) {
+    /*for (int channel = 0; channel < getNumOutputChannels(); channel++) {
         allCompressors.add(Compressor());
-    }
+    }*/
+    LComp.envelopeDetector.setSampleRate(sampleRate);
 }
 
 void CompressorAudioProcessor::releaseResources()
@@ -142,8 +206,11 @@ void CompressorAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
         for (int channel = 0; channel < totalNumInputChannels; ++channel)
         {
             auto* data = buffer.getWritePointer(channel);
-            Compressor* comp = &allCompressors.getReference(channel);
-            data[i] = comp->compress(data[i], -30.0f, 4.0f, 0.1f, 0.4f, 0.0f);
+            //Compressor* comp = &allCompressors.getReference(channel);
+            //data[i] = comp->processAudioSample(data[i]);
+            if (channel == 0) {
+                data[i] = LComp.processAudioSample(data[i]);
+            }
         }
     }
 }
@@ -156,7 +223,8 @@ bool CompressorAudioProcessor::hasEditor() const
 
 juce::AudioProcessorEditor* CompressorAudioProcessor::createEditor()
 {
-    return new CompressorAudioProcessorEditor (*this);
+    //return new CompressorAudioProcessorEditor (*this);
+    return new juce::GenericAudioProcessorEditor(*this);
 }
 
 //==============================================================================

@@ -589,6 +589,12 @@
     <ClCompile Include="..\..\Source\Compressor.cpp">
       <Filter>Compressor\Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\EnvelopeDetector.cpp">
+      <Filter>Compressor\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\GainComputer.cpp">
+      <Filter>Compressor\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\..\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.cpp">
       <Filter>JUCE Modules\juce_audio_basics\audio_play_head</Filter>
     </ClCompile>
@@ -2923,6 +2929,12 @@
       <Filter>Compressor\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Compressor.h">
+      <Filter>Compressor\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EnvelopeDetector.h">
+      <Filter>Compressor\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\GainComputer.h">
       <Filter>Compressor\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h">
