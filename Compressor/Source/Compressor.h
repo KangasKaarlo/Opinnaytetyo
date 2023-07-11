@@ -17,6 +17,7 @@ public:
 	void setAttack(float attack);
 	void setRelease(float release);
 	void setTreshold(float treshold);
+	void setGain(float gain);
 	EnvelopeDetector envelopeDetector;
 
 private:

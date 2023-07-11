@@ -21,7 +21,7 @@ float Compressor::returnGainMultiplier(float sample)
 	float detectorOutput = envelopeDetector.processAudioSample(sample);
 	double gainReduction = computeGain(detectorOutput);
 	double makeupGain = pow(10.0, outputGain_db / 20.0);
-	return gainReduction /* makeupGain*/;
+	return gainReduction * makeupGain;
 }
 
 float Compressor::processAudioSample(float sample)
@@ -29,7 +29,7 @@ float Compressor::processAudioSample(float sample)
 	float detectorOutput = envelopeDetector.processAudioSample(sample);
 	double gainReduction = computeGain(detectorOutput);
 	double makeupGain = pow(10.0, outputGain_db / 20.0);
-	return sample * gainReduction /* makeupGain*/;
+	return sample * gainReduction * makeupGain;
 }
 
 float Compressor::computeGain(float input) {
@@ -76,6 +76,11 @@ void Compressor::setRelease(float release)
 void Compressor::setTreshold(float treshold)
 {
 	threshold_dB = treshold;
+}
+
+void Compressor::setGain(float gain)
+{
+	outputGain_db = gain;
 }
 
 

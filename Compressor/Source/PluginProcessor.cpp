@@ -77,7 +77,7 @@ void CompressorAudioProcessor::parameterChanged(const juce::String& parameterID,
     DBG(parameterID);
     DBG(newValue);
     if (parameterID == "gain") { 
-        gain = juce::Decibels::decibelsToGain(newValue);
+        LComp.setGain(newValue);
     }
     else if (parameterID == "treshold") {
         LComp.setTreshold(newValue);
